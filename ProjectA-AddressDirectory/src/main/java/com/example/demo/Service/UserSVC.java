@@ -9,6 +9,7 @@ import java.util.OptionalLong;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.interceptor.CacheOperationInvoker.ThrowableWrapper;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.expression.spel.support.ReflectivePropertyAccessor.OptimalPropertyAccessor;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,9 @@ import org.springframework.stereotype.Service;
 import com.example.Models.UserLogin;
 import com.example.demo.Entity.User;
 import com.example.demo.Repository.UserRepository;
+import com.jtspringproject.JtSpringProject.dao.userDao;
+
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class UserSVC {
@@ -37,16 +41,17 @@ public class UserSVC {
 		return id;
 	}
 	
-	public boolean removeUser(Long id) {
-		boolean result=false;
+	public void removeUser(Long id) throws IllegalArgumentException, Exception {
 		try {
+			if(userRepository.findById(id).isEmpty()) {
+				throw new EmptyResultDataAccessException(0);
+			}
 			userRepository.deleteById(id);
-			result=true;
 		    logger.info("User deleted sucessfully.");
 		} catch (EmptyResultDataAccessException e) {
 			logger.info("User does not exits.");
+			throw new IllegalArgumentException("User not found");
 		}
-		return result;
 	}
 	
 	
@@ -57,7 +62,7 @@ public class UserSVC {
 		return users;
 	}
 	
-	public User getUserById(Long id) {
+	public User getUserById(Long id) throws Exception {
 		User user=null;
 		try {
 		    Optional<User>	userData=userRepository.findById(id);
@@ -66,18 +71,30 @@ public class UserSVC {
 		    logger.info("User retrive from Id");
 		}
 		catch (Exception e) {
-			logger.info("User does not exits");;
+			logger.info("User does not exits");
+			throw new Exception("User does not exist");
 		}
 		return user;
 	}
 
-	public Long getIdByCredentials(UserLogin userLogin) {
+	public Long getIdByCredentials(UserLogin userLogin) throws Exception {
 		Long id=userRepository.findIdByEmailAndPassword(userLogin.getEmail(), userLogin.getPassword());
+		if(id==null)throw new Exception("Invalid Credentials");
 		return id;
 	}
 
-	public boolean updateUserInfo(User user) {
-		// TODO Auto-generated method stub
-		return false;
+	public User updateUserInfo(User user) throws Exception {
+		return userRepository.findById(user.getId())
+		.map(existingUser->{
+			// Set the attribute to existing user
+			existingUser.setName(user.getName());
+			existingUser.setContact(user.getContact());
+			existingUser.setEmail(user.getEmail());
+			existingUser.setPassword(user.getPassword());
+			
+			// Save new attribute to database.
+			return userRepository.save(existingUser);
+		})
+		.orElseThrow(()->new EntityNotFoundException("Not found Entity"));
 	}
 }
