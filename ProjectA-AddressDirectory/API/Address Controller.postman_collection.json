@@ -1,0 +1,87 @@
+{
+	"info": {
+		"_postman_id": "87e62597-fe05-41ed-a09b-f2d3ebdda725",
+		"name": "Address Controller",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get All Address By Id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/address/5",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"address",
+						"5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add new Address",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"houseNumber\": 34,\r\n    \"buildingName\": \"Harsh Tower\",\r\n    \"street\": \"Tukaram Chauk\",\r\n    \"landMark\": \"Hanuman Mandir\",\r\n    \"city\": \"Dombivali\",\r\n    \"district\": \"Thane\",\r\n    \"state\": \"Maharashtra\",\r\n    \"pinCode\": \"413701\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/address/5",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"address",
+						"5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Address",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\":1,\r\n    \"userId\": {\r\n            \"id\": 5,\r\n            \"name\": \"Prashant Nawale\",\r\n            \"email\": \"nawale@gmail.com\",\r\n            \"password\": \"Pass@123\",\r\n            \"contact\": \"8908908909\"\r\n        },\r\n    \"houseNumber\":39,\r\n    \"buildingName\":\"harsh Towar\",\r\n    \"landMark\":\"hanuman Mandir\",\r\n    \"city\":\"Kalyan\",\r\n    \"district\":\"Thane\",\r\n    \"state\":\"Maharastra\",\r\n    \"pin\":413701\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/address/5",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"address",
+						"5"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

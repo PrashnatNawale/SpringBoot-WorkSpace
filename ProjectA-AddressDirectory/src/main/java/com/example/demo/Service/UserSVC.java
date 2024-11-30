@@ -17,7 +17,8 @@ import org.springframework.stereotype.Service;
 import com.example.Models.UserLogin;
 import com.example.demo.Entity.User;
 import com.example.demo.Repository.UserRepository;
-import com.jtspringproject.JtSpringProject.dao.userDao;
+
+//import com.jtspringproject.JtSpringProject.dao.userDao;
 
 import jakarta.persistence.EntityNotFoundException;
 
