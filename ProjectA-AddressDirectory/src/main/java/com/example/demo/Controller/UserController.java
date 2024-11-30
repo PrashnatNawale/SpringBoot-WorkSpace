@@ -39,11 +39,11 @@ public class UserController {
 	
 	// Fetch Complete List of User
 	@GetMapping("/")
-	public List<User> getUsers() {
+	public ResponseEntity<?>getUsers() {
 		logger.info("Request receive to get all users.");
 		List<User> users=userSVC.getAllUsers(); 
 		logger.info("List of users deliver to Request.");
-		return users;
+		return ResponseEntity.ok(users);
 	}
 	// Get User information using Id.
 	@GetMapping("/{id}")
